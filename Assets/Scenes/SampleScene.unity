@@ -353,7 +353,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe7aebe1b05d06e4cbbe25095fb4dd9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 150
+  baseRotationSpeed: 100
   baseSpeed: 10
   shipRenderer: {fileID: 1721555725}
   timer: 1
