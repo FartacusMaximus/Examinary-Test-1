@@ -354,6 +354,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseRotationSpeed: 100
+  leftSlowerRatio: 0.494
   baseSpeed: 10
   shipRenderer: {fileID: 1721555725}
-  timer: 1
+  shipLocation: {fileID: 1721555726}

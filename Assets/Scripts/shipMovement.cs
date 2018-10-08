@@ -8,6 +8,9 @@ public class shipMovement : MonoBehaviour
     public float baseRotationSpeed;
     //The ships speed turning left
     float leftRotationSpeed;
+    //How much slower the ship turning left is than the ship turning right
+    [Range (0.1f,1f)]
+    public float leftSlowerRatio;
     //Player assigned ship speed
     public float baseSpeed;
     //Current ship speed
@@ -15,15 +18,19 @@ public class shipMovement : MonoBehaviour
     //The ship variable
     public SpriteRenderer shipRenderer;
     //a timer for time spent in game
-    public int timer;
-    
+    int timer;
+    public Transform shipLocation;
     
     // Use this for initialization
     void Start()
     {
+
         //Sets the current ship speed to the player assigned ship speed
+        //Sets the timer to 1
+        //Sets the left rotation speed to be slower which is based on the leftSlowerRatio
         forwardSpeed = baseSpeed;
-        leftRotationSpeed = baseRotationSpeed/2;
+        leftRotationSpeed = baseRotationSpeed*leftSlowerRatio;
+        timer = 1;
     }
 
     // Update is called once per frame
@@ -63,6 +70,15 @@ public class shipMovement : MonoBehaviour
         {
             print("Timer: " + timer);
             timer = timer + 1;
+        }
+        // Makes it so that when you press the "Space" key the ship changes colour
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            shipRenderer.color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f), 1);
+        }
+        if (transform.position.x > 10.5 || transform.position.x <-10.5)
+        {
+            shipLocation.position = new Vector3 (shipLocation.position.x * -1, shipLocation.position.y);
         }
     }
 }
