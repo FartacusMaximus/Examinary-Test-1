@@ -23,16 +23,48 @@ public class shipMovement : MonoBehaviour
     public bool randomShipSpeed;
     //Gives the player the choice if they want a random start location or not
     public bool randomStartPosition;
+    //Variable for shipSprite1
+    public SpriteRenderer randomShip1;
+    //Variable for shipSprite2
+    public SpriteRenderer randomShip2;
+    //Variable for shipSprite3
+    public SpriteRenderer randomShip3;
+    //Variable for which ship the game will show
+    int randomShip;
+    
     // Use this for initialization
     void Start()
     {
+        //generates a number between the two values and enables and disables the sprite renderers accordingly
+        randomShip = Random.Range(1, 4);
+        if (randomShip == 1)
+        {
+            randomShip1.enabled = true;
+            randomShip2.enabled = false;
+            randomShip3.enabled = false;
+        }
+        if (randomShip == 2)
+        {
+            randomShip1.enabled = false;
+            randomShip2.enabled = true;
+            randomShip3.enabled = false;
+        }
+        if (randomShip == 3)
+        {
+            randomShip1.enabled = false;
+            randomShip2.enabled = false;
+            randomShip3.enabled = true;
+        }
 
         //Sets the left rotation speed to be slower which is based on the leftSlowerRatio
         leftRotationSpeed = baseRotationSpeed*leftSlowerRatio;
         //Sets the timer to 1
         timer = 1;
         //Gives the ship a random start position within view if randomStartPosition is enablaled
+        if(randomStartPosition == true)
+        {
         shipLocation.position = new Vector3(Random.Range(-8f, 8f), Random.Range(4.5f,-4.5f));
+        }
         //Makes it so that if the player enabled random speed it makes the ship start speed random
         if (randomShipSpeed == true)
         {
@@ -47,13 +79,22 @@ public class shipMovement : MonoBehaviour
     {
         //This makes the ship go forward based on given speed, in real time
         transform.Translate(forwardSpeed * Time.deltaTime, 0, 0);
-
-        //Makes it so when you press/hold down the "A" key the ship turn left,
+        //makes it so when you press the "W" key the ship speed doubles
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            forwardSpeed = baseSpeed * 2;
+        }
+        //When you release the "W" key the ships speed resets to the base speed
+        if (Input.GetKeyUp(KeyCode.W))
+        {
+            forwardSpeed = baseSpeed;
+        }
+        //Makes it so when you press/hold down the "A" key the ship turn left, independent of framerate
         if (Input.GetKey(KeyCode.A))
         {
             transform.Rotate(0f, 0f, leftRotationSpeed * Time.deltaTime);
         }
-        //Makes it so when you press/hold down the "D" key the ship turn right, 
+        //Makes it so when you press/hold down the "D" key the ship turn right, independent of framerate
         if (Input.GetKey(KeyCode.D))
         {
             transform.Rotate(0f, 0f, -baseRotationSpeed * Time.deltaTime);
