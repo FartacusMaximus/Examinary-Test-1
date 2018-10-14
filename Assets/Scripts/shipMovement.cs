@@ -5,7 +5,7 @@ using UnityEngine;
 public class shipMovement : MonoBehaviour
 {
     //Player assigned rotation speed
-    public float startRotationSpeed;
+    public float startRotationSpeed = 150;
     //The ships speed turning right.
     public float rightRotationSpeed;
     //The ships speed turning left
@@ -36,7 +36,10 @@ public class shipMovement : MonoBehaviour
     //The speed at which the ship will accelerate at
     [Range (1f, 0.0000001f)]
     public float speedIncrease;
-    
+    //a Variable which lets us use variables from the cameraZoom script
+    public cameraZoom cameraScript;
+    //This is a variable so that the warp range increases proportionally to the camera zoom
+    public float warpIncrease;
     // Use this for initialization
     void Start()
     {
@@ -118,17 +121,20 @@ public class shipMovement : MonoBehaviour
             print("Timer: " + timer);
             timer = timer + 1;
         }
-
+        //makes sure that the warpIncrease is equal to the currentCameraZoom which lets the x/y positions which the ship 
+        //will warp increase proportionally to the currentCameraZoom 
+        warpIncrease = cameraScript.currentCameraZoom;
         //makes it so when the ship comes to a position that is of screen it warps to the other side so that it goes into view again
         //this is done for both the x position and y position
-        if (transform.position.x > 10.5 || transform.position.x <-10.5)
+        if (transform.position.x > 2.1 *warpIncrease || transform.position.x <-2.1 *warpIncrease)
         {
             shipLocation.position = new Vector3 (shipLocation.position.x * -1, shipLocation.position.y);
         }
-        if (transform.position.y > 6.5 || transform.position.y < -6.5)
+        if (transform.position.y > 1.3 * warpIncrease || transform.position.y < -1.3 * warpIncrease)
         {
             shipLocation.position = new Vector3(shipLocation.position.x , shipLocation.position.y * -1);
         }
+        
         //Makes it so that the ships speed will increase based on speedIncrease and time spent in game 
         baseSpeed = baseSpeed+(startSpeed * speedIncrease)*Time.deltaTime;
         //Increases both left and right rotation speed base on speedIncrease and time spent in game 
